@@ -1,0 +1,5 @@
+.idea
+bower_components/
+node_modules/
+builds/development/libs/**/*
+builds/development/css/style.min.css
