@@ -52,6 +52,21 @@ gulp.task('libs', function() {
         .pipe(gulp.dest('./builds/dist/libs/bootstrap/'));
     gulp.src(bc + 'bootstrap-material-design/dist/**/*.*')
         .pipe(gulp.dest('./builds/dist/libs/bootstrap-material-design/'));
+    //calendar
+    gulp.src(bc + 'fullcalendar/dist/fullcalendar.css')
+        .pipe(gulp.dest('./builds/dist/css/fullcalendar/'));
+    gulp.src(bc + 'moment/min/moment.min.js')
+        .pipe(gulp.dest('./builds/dist/libs/moment/'));
+
+    gulp.src(bc + 'angular-ui-calendar/src/calendar.js')
+        .pipe(gulp.dest('./builds/dist/libs/angular-ui-calendar/'));
+
+    gulp.src(bc + 'fullcalendar/dist/fullcalendar.min.js')
+        .pipe(gulp.dest('./builds/dist/libs/fullcalendar/'));
+
+    gulp.src(bc + 'fullcalendar/dist/gcal.js')
+        .pipe(gulp.dest('./builds/dist/libs/fullcalendar/'));
+    //end calendar
     gulp.src([bc+'angular/angular.js',
         bc+'angular-animate/angular-animate.js',
         bc+'angular-cookies/angular-cookies.js',
