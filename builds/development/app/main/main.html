@@ -1,14 +1,110 @@
+<h1>Розклад занять</h1>
+<div class="container">
+    <div class="row" >
+        <div class="col-md-2">
+            <h3>Номер пари</h3>
+        </div>
+    <div class="col-md-2" ng-repeat="day in home.massday">
+        <h3>{{day.name}}</h3>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"><p>{{home.NumberofPair[0].begin + "-"+home.NumberofPair[1].end}}</p></div>
+        <div class="col-md-2">
+            <div class="lesson col-md-12" ng-repeat="subg in home.main | filter: {day: 1 , id_numberOfpair:0}">
+                <p>{{subg.id_numberOfpair}}</p>
+                <p>{{home.lesson[subg.id_lesson].name}}</p>
+                <p>Група: {{home.group[subg.id_group].name}}</p>
+                <p>День: {{home.massday[subg.day].name}}</p>
+                <p>Аудиторія: {{subg.auditory}}</p>
+                <p>Викладач: {{home.teacher[subg.id_teacher].secondname}} {{home.teacher[subg.id_teacher].name}}
+                    {{home.teacher[subg.id_teacher].surname}}</p>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="lesson col-md-12" ng-repeat="subg in home.main | filter: {day: 2 , id_numberOfpair:0}">
+                <p>{{subg.id_numberOfpair}}</p>
+                <p>{{subg.lesson}}</p>
+                <p>Група: {{home.group[subg.id_group].name}}</p>
+                <p>День: {{home.massday[subg.day].name}}</p>
+                <p>Аудиторія: {{subg.auditory}}</p>
+                <p>Викладач: {{home.teacher[subg.id_teacher].secondname}} {{home.teacher[subg.id_teacher].name}}
+                    {{home.teacher[subg.id_teacher].surname}}</p>
+            </div>
+    </div>
+</div>
 
-<!--<div id="calendar"  ui-calendar="home.uiConfig.calendar" ng-model="eventSources"></div>-->
-<h1>Hello</h1>
-<table class="table table-striped table-hover ">
-<thead>
-<tr >
-    <td>День неділі</td>
-    <td class="text-center" ng-repeat="day in home.day">{{day}}</td>
-</tr>
-</thead>
+<table class="table table-striped table-hover table-responsive ">
+    <tr>
+        <td>
+            <div class="lesson"  ng-repeat="subg in home.main">
+                    <p>{{home.lesson[subg.id_lesson].name}}</p>
+                    <p>Група: {{home.group[subg.id_group].name}}</p>
+                    <p>День: {{home.massday[subg.day].name}}</p>
+                    <p>Аудиторія: {{subg.auditory}}</p>
+                    <p>Викладач: {{home.teacher[subg.id_teacher].secondname}} {{home.teacher[subg.id_teacher].name}}
+                        {{home.teacher[subg.id_teacher].surname}}</p>
+            </div>
+        </td>
+    </tr>
+</table>
+<table class="table table-striped table-hover table-responsive " id="table">
+    <thead>
+    <tr>
+        <td>День неділі</td>
+        <td class="text-center" ng-repeat="day in home.massday">{{day.name}}</td>
+    </tr>
+    </thead>
     <tbody>
-
+    <!--<tr><td><div ng-click="lol()" ng-repeat="subg in home.myBase |filter: {day: home.filtday}">{{subg.vukl+" "+subg.day}}</div></td></tr>-->
+    <tr>
+        <td>{{home.NumberofPair[0].begin}} - {{home.NumberofPair[0].end}}</td>
+        <td>
+            <div class="lesson"  ng-repeat="subg in home.main">
+                <p>{{home.lesson[subg.id_lesson].name}}</p>
+                <p>Група: {{home.group[subg.id_group].name}}</p>
+                <p>День: {{home.massday[subg.day].name}}</p>
+                <p>Аудиторія: {{subg.auditory}}</p>
+                <p>Викладач: {{home.teacher[subg.id_teacher].secondname}} {{home.teacher[subg.id_teacher].name}}
+                    {{home.teacher[subg.id_teacher].surname}}</p>
+            </div>
+        </td>
+        <td>
+            <div class="lesson"  ng-repeat="subg in home.main">
+                <p>{{home.lesson[subg.id_lesson].name}}</p>
+                <p>Група: {{home.group[subg.id_group].name}}</p>
+                <p>День: {{home.massday[subg.day].name}}</p>
+                <p>Аудиторія: {{subg.auditory}}</p>
+                <p>Викладач: {{home.teacher[subg.id_teacher].secondname}} {{home.teacher[subg.id_teacher].name}}
+                    {{home.teacher[subg.id_teacher].surname}}</p>
+            </div>
+        </td>
+        <td>
+            <div class="lesson"  ng-repeat="subg in home.main">
+                <p>{{home.lesson[subg.id_lesson].name}}</p>
+                <p>Група: {{home.group[subg.id_group].name}}</p>
+                <p>День: {{home.massday[subg.day].name}}</p>
+                <p>Аудиторія: {{subg.auditory}}</p>
+                <p>Викладач: {{home.teacher[subg.id_teacher].secondname}} {{home.teacher[subg.id_teacher].name}}
+                    {{home.teacher[subg.id_teacher].surname}}</p>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>{{home.NumberofPair[1].begin}} - {{home.NumberofPair[1].end}}</td>
+    </tr>
+    <tr>
+        <td>{{home.NumberofPair[2].begin}} - {{home.NumberofPair[2].end}}</td>
+    </tr>
+    <tr>
+        <td>{{home.NumberofPair[3].begin}}- {{home.NumberofPair[3].end}}</td>
+    </tr>
+    <tr>
+        <td>{{home.NumberofPair[4].begin}}- {{home.NumberofPair[4].end}}</td>
+    </tr>
+    <tr>
+        <td>{{home.NumberofPair[5].begin}}- {{home.NumberofPair[5].end}}</td>
+    </tr>
     </tbody>
 </table>
+<button ng-click="check()">Check</button>

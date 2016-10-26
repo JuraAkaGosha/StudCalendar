@@ -46,28 +46,22 @@ gulp.task('watch', function() {
 gulp.task('libs', function() {
     gulp.src(bc + 'jquery/dist/jquery.js')
         .pipe(gulp.dest('./builds/dist/libs/jquery/'));
+    gulp.src(bc + 'moment/src/moment.js')
+        .pipe(gulp.dest('./builds/dist/libs/moment/'));
     gulp.src(bc+'normalize-css/normalize.css')
         .pipe(gulp.dest('./builds/dist/css/'));
     gulp.src(bc + 'bootstrap/dist/**/*.*')
         .pipe(gulp.dest('./builds/dist/libs/bootstrap/'));
     gulp.src(bc + 'bootstrap-material-design/dist/**/*.*')
         .pipe(gulp.dest('./builds/dist/libs/bootstrap-material-design/'));
-    //calendar
-    gulp.src(bc + 'fullcalendar/dist/fullcalendar.css')
-        .pipe(gulp.dest('./builds/dist/css/fullcalendar/'));
-    gulp.src(bc + 'moment/min/moment.min.js')
-        .pipe(gulp.dest('./builds/dist/libs/moment/'));
 
-    gulp.src(bc + 'angular-ui-calendar/src/calendar.js')
-        .pipe(gulp.dest('./builds/dist/libs/angular-ui-calendar/'));
+    gulp.src(bc + 'angular-material/angular-material.css')
+        .pipe(gulp.dest('./builds/dist/libs/angular-material/'));
+    gulp.src( bc+ 'angular-material/angular-material.js')
+        .pipe(gulp.dest('./builds/dist/libs/angular-material/'));
 
-    gulp.src(bc + 'fullcalendar/dist/fullcalendar.min.js')
-        .pipe(gulp.dest('./builds/dist/libs/fullcalendar/'));
-
-    gulp.src(bc + 'fullcalendar/dist/gcal.js')
-        .pipe(gulp.dest('./builds/dist/libs/fullcalendar/'));
-    //end calendar
-    gulp.src([bc+'angular/angular.js',
+    gulp.src([
+        bc+'angular/angular.js',
         bc+'angular-animate/angular-animate.js',
         bc+'angular-cookies/angular-cookies.js',
         bc+'angular-i18n/angular-locale_ru-ru.js',
