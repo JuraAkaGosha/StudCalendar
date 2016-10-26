@@ -49,6 +49,7 @@ function Config($stateProvider, $urlRouterProvider) {
             GroupArr = $firebaseArray(ref.child('group')),
             TeachersArr = $firebaseArray(ref.child('teachers')),
             NumberOfPairArr = $firebaseArray(ref.child('NumberofPair')),
+            facultyRef = ref.child('faculty'),
             facultyArr = $firebaseArray(ref.child('faculty')),
             lessonArr =$firebaseArray(ref.child('lesson')),
             specialityArr = $firebaseArray(ref.child('specialty')),
@@ -99,6 +100,26 @@ function Config($stateProvider, $urlRouterProvider) {
         // Facult
         this.getFacult = function (cb) {
             return facultyArr.$loaded(cb);
+        };
+        // add Facult
+        this.addFacult = function (_lesson, _cb) {
+            var FacultLength = $firebaseObject(ref.child('id_count').child('facult'));
+            FacultLength.$loaded(function () {
+                var FLength = ++FacultLength.$value;
+                FacultLength.$save();
+                facultyRef.child(FLength).set(_lesson, _cb);
+            });
+        };
+        // Set Facult
+        this.SetFacultet = function (_id) {
+            return facultyArr.$getRecord(_id);
+        }
+        // Update facult
+        this.updateFacult = function (_facult) {
+            return facultyArr.$save(_facult);
+        };
+        this.RemoveFacult = function (_facult) {
+            return facultyArr.$remove(_facult);
         };
         // Specialnist
         this.getSpeciality = function (cb) {
@@ -177,7 +198,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     };
     admin.RemoveDusc = function (_id) {
         $log.debug(_id);
-        admin.result = confirm("Ви хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
+        admin.result = confirm("Ви впевнені, що хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
         if (admin.result) {
             $log.debug(admin.addLesson);
             fitfire.RemoveLesson(fitfire.SetDusc(_id)).then(function () {
@@ -188,9 +209,51 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         }
     }
     // end lesson
-    admin.lessonFilter = "";
-    admin.specialityFilter = "";
-
+    // Факультет
+    fitfire.getFacult(function (_d) {
+        admin.facultet = _d;
+    });
+    admin.setAddFacultet = function () {
+        admin.addFacult = {
+            name: ""
+        };
+        admin.correctFacult = 'Введіть назву факультету';
+    };
+    admin.addFacultet = function () {
+        if (admin.addFacult.name != "") {
+            fitfire.addFacult(admin.addFacult, function () {
+                admin.addFacult = {
+                    name: ""
+                };
+                admin.facultFilter = "";
+                alert("Факультет додано");
+            });
+        }
+        else {
+            alert("Введіть назву факультету");
+        }
+    };
+    admin.SetEditFacultet = function (_facult) {
+        admin.correctFacult = 'Відредагуйте факультет';
+        admin.addFacult = fitfire.SetFacultet(_facult.$id);
+    };
+    admin.UpdateFacult = function (_facult) {
+        fitfire.updateFacult(_facult).then(function () {
+            alert("Запис відредаговано");
+            admin.addLesson = {name: ""};
+        })
+    };
+    admin.RemoveFacult = function (_id) {
+        admin.result = confirm("Ви впевнені, що хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
+        if (admin.result) {
+            fitfire.RemoveFacult(fitfire.SetFacultet(_id)).then(function () {
+                alert("Запис видалено");
+                admin.addFacult = {};
+                admin.facultFilter="";
+            })
+        }
+    }
+    //end Факультет
     fitfire.getMain(function (_d) {
         admin.main = _d;
     });
@@ -204,9 +267,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     fitfire.getNumberofPair(function (_d) {
         admin.NumberofPair = _d;
     });
-    fitfire.getFacult(function (_d) {
-        admin.facultet = _d;
-    });
+
     fitfire.getLesson(function (_d) {
         admin.lesson = _d;
     });
@@ -214,6 +275,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         admin.speciality = _d;
     });
 
+// Факультет
 
 }
 /**

@@ -47,13 +47,13 @@
                     <select id="facult" class="form-control" ng-model="admin.facultFilter" ng-options="facultet.name for facultet in admin.facultet track by facultet.$id">
                         <option value=""> </option>
                     </select>
-                    <button ng-click="" type="button"
+                    <button ng-click="admin.setAddFacultet()" type="button"
                             class="btn btn-primary" data-toggle="modal" data-target="#facult-dialog">Додати факультет
                     </button>
-                    <button ng-click="" ng-if="admin.facultFilter"
+                    <button ng-click="admin.SetEditFacultet(admin.facultFilter)" ng-if="admin.facultFilter.$id"
                             data-toggle="modal" data-target="#facult-dialog" class="btn btn-raised btn-info">Редагувати
                     </button>
-                    <button ng-click="" ng-if="admin.facultFilter"
+                    <button ng-click="admin.RemoveFacult(admin.facultFilter.$id)" ng-if="admin.facultFilter.$id"
                             class="btn btn-raised btn-danger">Видалити
                     </button>
                 </div>
@@ -63,14 +63,14 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <form>
-                                <label for="dusc.add" class=" lead control-label">{{admin.correctDusc}}</label>
-                                <input id="dusc.add" type="text" ng-model="admin.addLesson.name" class="form-control">
-                                <button ng-if="!admin.addLesson.$id" class="btn btn-raised btn-info"
-                                        ng-click="admin.addless()" data-dismiss="modal">
+                                <label for="fuacult.add" class=" lead control-label">{{admin.correctFacult}}</label>
+                                <input id="fuacult.add" type="text" ng-model="admin.addFacult.name" class="form-control">
+                                <button ng-if="!admin.addFacult.$id" class="btn btn-raised btn-info"
+                                        ng-click="admin.addFacultet()" data-dismiss="modal">
                                     Додати
                                 </button>
-                                <button ng-if="admin.addLesson.$id" class="btn btn-raised btn-info"
-                                        ng-click="admin.UpdateDusc(admin.addLesson)"
+                                <button ng-if="admin.addFacult.$id" class="btn btn-raised btn-info"
+                                        ng-click="admin.UpdateFacult(admin.addFacult)"
                                         data-dismiss="modal">Відредагувати
                                 </button>
                             </form>
@@ -79,6 +79,7 @@
                 </div>
             </div>
             <!--end facult-->
+            <!--begin Speciality-->
             <div class="form-group" ng-if="admin.facultFilter">
                 <label for="speciality" class="col-md-2 control-label">Спеціальність</label>
                 <div class="col-md-10">
@@ -93,6 +94,7 @@
                     <button ng-if="admin.specialityFilter" class="btn btn-raised btn-danger">Видалити</button>
                 </div>
             </div>
+            <!--begin Speciality-->
         </form>
     </div>
 </div>

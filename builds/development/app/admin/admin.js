@@ -50,7 +50,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     };
     admin.RemoveDusc = function (_id) {
         $log.debug(_id);
-        admin.result = confirm("Ви хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
+        admin.result = confirm("Ви впевнені, що хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
         if (admin.result) {
             $log.debug(admin.addLesson);
             fitfire.RemoveLesson(fitfire.SetDusc(_id)).then(function () {
@@ -61,9 +61,51 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         }
     }
     // end lesson
-    admin.lessonFilter = "";
-    admin.specialityFilter = "";
-
+    // Факультет
+    fitfire.getFacult(function (_d) {
+        admin.facultet = _d;
+    });
+    admin.setAddFacultet = function () {
+        admin.addFacult = {
+            name: ""
+        };
+        admin.correctFacult = 'Введіть назву факультету';
+    };
+    admin.addFacultet = function () {
+        if (admin.addFacult.name != "") {
+            fitfire.addFacult(admin.addFacult, function () {
+                admin.addFacult = {
+                    name: ""
+                };
+                admin.facultFilter = "";
+                alert("Факультет додано");
+            });
+        }
+        else {
+            alert("Введіть назву факультету");
+        }
+    };
+    admin.SetEditFacultet = function (_facult) {
+        admin.correctFacult = 'Відредагуйте факультет';
+        admin.addFacult = fitfire.SetFacultet(_facult.$id);
+    };
+    admin.UpdateFacult = function (_facult) {
+        fitfire.updateFacult(_facult).then(function () {
+            alert("Запис відредаговано");
+            admin.addLesson = {name: ""};
+        })
+    };
+    admin.RemoveFacult = function (_id) {
+        admin.result = confirm("Ви впевнені, що хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
+        if (admin.result) {
+            fitfire.RemoveFacult(fitfire.SetFacultet(_id)).then(function () {
+                alert("Запис видалено");
+                admin.addFacult = {};
+                admin.facultFilter="";
+            })
+        }
+    }
+    //end Факультет
     fitfire.getMain(function (_d) {
         admin.main = _d;
     });
@@ -77,9 +119,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     fitfire.getNumberofPair(function (_d) {
         admin.NumberofPair = _d;
     });
-    fitfire.getFacult(function (_d) {
-        admin.facultet = _d;
-    });
+
     fitfire.getLesson(function (_d) {
         admin.lesson = _d;
     });
@@ -87,5 +127,6 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         admin.speciality = _d;
     });
 
+// Факультет
 
 }

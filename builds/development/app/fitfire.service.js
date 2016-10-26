@@ -16,6 +16,7 @@
             GroupArr = $firebaseArray(ref.child('group')),
             TeachersArr = $firebaseArray(ref.child('teachers')),
             NumberOfPairArr = $firebaseArray(ref.child('NumberofPair')),
+            facultyRef = ref.child('faculty'),
             facultyArr = $firebaseArray(ref.child('faculty')),
             lessonArr =$firebaseArray(ref.child('lesson')),
             specialityArr = $firebaseArray(ref.child('specialty')),
@@ -66,6 +67,26 @@
         // Facult
         this.getFacult = function (cb) {
             return facultyArr.$loaded(cb);
+        };
+        // add Facult
+        this.addFacult = function (_lesson, _cb) {
+            var FacultLength = $firebaseObject(ref.child('id_count').child('facult'));
+            FacultLength.$loaded(function () {
+                var FLength = ++FacultLength.$value;
+                FacultLength.$save();
+                facultyRef.child(FLength).set(_lesson, _cb);
+            });
+        };
+        // Set Facult
+        this.SetFacultet = function (_id) {
+            return facultyArr.$getRecord(_id);
+        }
+        // Update facult
+        this.updateFacult = function (_facult) {
+            return facultyArr.$save(_facult);
+        };
+        this.RemoveFacult = function (_facult) {
+            return facultyArr.$remove(_facult);
         };
         // Specialnist
         this.getSpeciality = function (cb) {

@@ -72,7 +72,7 @@ gulp.task('libs', function() {
         bc+'angular-touch/angular-touch.js',
         bc+'firebase/firebase.js',
         bc+'angular-ui-router/release/angular-ui-router.js',
-        bc+'angularfire/dist/angularfire.js',
+        bc+'angularfire/dist/angularfire.js'
     ])
         .pipe(concat('angular.concat.js'))
         .pipe(gulp.dest('./builds/dist/libs/angular/'));
@@ -80,15 +80,11 @@ gulp.task('libs', function() {
 gulp.task('webserver', function() {
     gulp.src('builds/dist/')
         .pipe(webserver({
+            port:850,
             livereload: true,
             open: true
         }));
 });
-// gulp.task('minify', function () {
-//     gulp.src('builds/development/app/app.js')
-//         .pipe(uglify())
-//         .pipe(gulp.dest('builds/dist/app/'));
-// });
 gulp.task('default', [
     'libs',
     'html',
