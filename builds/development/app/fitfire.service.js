@@ -69,12 +69,12 @@
             return facultyArr.$loaded(cb);
         };
         // add Facult
-        this.addFacult = function (_lesson, _cb) {
+        this.addFacult = function (_facult, _cb) {
             var FacultLength = $firebaseObject(ref.child('id_count').child('facult'));
             FacultLength.$loaded(function () {
                 var FLength = ++FacultLength.$value;
                 FacultLength.$save();
-                facultyRef.child(FLength).set(_lesson, _cb);
+                facultyRef.child(FLength).set(_facult, _cb);
             });
         };
         // Set Facult
@@ -92,24 +92,24 @@
         this.getSpeciality = function (cb) {
             return specialityArr.$loaded(cb);
         };
-
-
-
-        // this.addUser = function (_user, _cb) {
-        //     var usersLength = $firebaseObject(ref.child('option').child('usersLength'));
-        //     usersLength.$loaded(function () {
-        //         var uLength = ++usersLength.$value;
-        //         usersLength.$save();
-        //         usersRef.child(uLength).set(_user, _cb);
-        //     });
-        //
-        // }
-        // refObj.$loaded(function () {
-        //     self.db = refObj;
-        // });
-        // var refArr = $firebaseArray(ref);
-        // refArr.$loaded(function () {
-        //     self.dbArr = refArr;
-        // })
+        // Specialnist. add specialnist
+        this.addSpeciality = function (_specialnist, _cb) {
+            var SpecLength = $firebaseObject(ref.child('id_count').child('speciality'));
+            SpecLength.$loaded(function () {
+                var SLength = ++SpecLength.$value;
+                SpecLength.$save();
+                ref.child('specialty').child(SLength).set(_specialnist, _cb);
+            });
+        };
+        // Set specialnist
+        this.SetSpecialnist = function (_id) {
+            return specialityArr.$getRecord(_id);
+        };
+        this.updateSpec = function (_spec) {
+            return specialityArr.$save(_spec);
+        };
+        this.RemoveSpec = function (_spec) {
+            return specialityArr.$remove(_spec);
+        };
     }
 })()

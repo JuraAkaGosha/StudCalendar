@@ -74,9 +74,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     admin.addFacultet = function () {
         if (admin.addFacult.name != "") {
             fitfire.addFacult(admin.addFacult, function () {
-                admin.addFacult = {
-                    name: ""
-                };
+                admin.setAddFacultet();
                 admin.facultFilter = "";
                 alert("Факультет додано");
             });
@@ -92,7 +90,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     admin.UpdateFacult = function (_facult) {
         fitfire.updateFacult(_facult).then(function () {
             alert("Запис відредаговано");
-            admin.addLesson = {name: ""};
+            admin.setAddFacultet();
         })
     };
     admin.RemoveFacult = function (_id) {
@@ -100,7 +98,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         if (admin.result) {
             fitfire.RemoveFacult(fitfire.SetFacultet(_id)).then(function () {
                 alert("Запис видалено");
-                admin.addFacult = {};
+                admin.setAddFacultet();
                 admin.facultFilter="";
             })
         }
@@ -123,10 +121,58 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     fitfire.getLesson(function (_d) {
         admin.lesson = _d;
     });
+    // Speciality
     fitfire.getSpeciality(function (_d) {
         admin.speciality = _d;
     });
+    admin.addSpec = {
+        name: "",
+        id_faculty: null
+    };
+    admin.setAddSpecality = function () {
+        admin.addSpec = {
+            name: "",
+            id_faculty: null
+        };
 
-// Факультет
-
+        admin.correctSpeciality = 'Введіть назву спеціальності';
+    };
+    admin.addSpeciality = function () {
+        admin.sendSpec={};
+        admin.sendSpec = {
+            name: admin.addSpec.name,
+            id_faculty: parseInt(admin.addSpec.id_faculty)
+        }
+        if (admin.addSpec.name != ""&& admin.addSpec.id_faculty!=null) {
+            fitfire.addSpeciality(admin.sendSpec, function () {
+                admin.setAddSpecality();
+                admin.specialityFilter = "";
+                alert("Спеціальність додано");
+            });
+        }
+        else {
+            alert("Введіть коректні дані");
+        }
+    };
+    admin.SetEditSpecality= function (_speciality) {
+        $log.debug(admin.addSpec);
+        admin.correctSpeciality = 'Відредагуйте Спеціальність';
+        admin.addSpec = fitfire.SetSpecialnist(_speciality.$id);
+    };
+    admin.UpdateSpec = function (_speciality) {
+        fitfire.updateSpec(_speciality).then(function () {
+            alert("Запис відредаговано");
+            admin.setAddSpecality();
+        })
+    };
+    admin.RemoveSpec = function (_spec) {
+        admin.result = confirm("Ви впевнені, що хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
+        if (admin.result) {
+            fitfire.RemoveSpec(fitfire.SetSpecialnist(_spec.$id)).then(function () {
+                alert("Запис видалено");
+                admin.setAddSpecality();
+                admin.specialityFilter="";
+            })
+        }
+    }
 }

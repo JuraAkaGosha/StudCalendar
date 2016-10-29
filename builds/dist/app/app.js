@@ -102,12 +102,12 @@ function Config($stateProvider, $urlRouterProvider) {
             return facultyArr.$loaded(cb);
         };
         // add Facult
-        this.addFacult = function (_lesson, _cb) {
+        this.addFacult = function (_facult, _cb) {
             var FacultLength = $firebaseObject(ref.child('id_count').child('facult'));
             FacultLength.$loaded(function () {
                 var FLength = ++FacultLength.$value;
                 FacultLength.$save();
-                facultyRef.child(FLength).set(_lesson, _cb);
+                facultyRef.child(FLength).set(_facult, _cb);
             });
         };
         // Set Facult
@@ -125,25 +125,25 @@ function Config($stateProvider, $urlRouterProvider) {
         this.getSpeciality = function (cb) {
             return specialityArr.$loaded(cb);
         };
-
-
-
-        // this.addUser = function (_user, _cb) {
-        //     var usersLength = $firebaseObject(ref.child('option').child('usersLength'));
-        //     usersLength.$loaded(function () {
-        //         var uLength = ++usersLength.$value;
-        //         usersLength.$save();
-        //         usersRef.child(uLength).set(_user, _cb);
-        //     });
-        //
-        // }
-        // refObj.$loaded(function () {
-        //     self.db = refObj;
-        // });
-        // var refArr = $firebaseArray(ref);
-        // refArr.$loaded(function () {
-        //     self.dbArr = refArr;
-        // })
+        // Specialnist. add specialnist
+        this.addSpeciality = function (_specialnist, _cb) {
+            var SpecLength = $firebaseObject(ref.child('id_count').child('speciality'));
+            SpecLength.$loaded(function () {
+                var SLength = ++SpecLength.$value;
+                SpecLength.$save();
+                ref.child('specialty').child(SLength).set(_specialnist, _cb);
+            });
+        };
+        // Set specialnist
+        this.SetSpecialnist = function (_id) {
+            return specialityArr.$getRecord(_id);
+        };
+        this.updateSpec = function (_spec) {
+            return specialityArr.$save(_spec);
+        };
+        this.RemoveSpec = function (_spec) {
+            return specialityArr.$remove(_spec);
+        };
     }
 })()
 /**
@@ -222,9 +222,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     admin.addFacultet = function () {
         if (admin.addFacult.name != "") {
             fitfire.addFacult(admin.addFacult, function () {
-                admin.addFacult = {
-                    name: ""
-                };
+                admin.setAddFacultet();
                 admin.facultFilter = "";
                 alert("Факультет додано");
             });
@@ -240,7 +238,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     admin.UpdateFacult = function (_facult) {
         fitfire.updateFacult(_facult).then(function () {
             alert("Запис відредаговано");
-            admin.addLesson = {name: ""};
+            admin.setAddFacultet();
         })
     };
     admin.RemoveFacult = function (_id) {
@@ -248,7 +246,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         if (admin.result) {
             fitfire.RemoveFacult(fitfire.SetFacultet(_id)).then(function () {
                 alert("Запис видалено");
-                admin.addFacult = {};
+                admin.setAddFacultet();
                 admin.facultFilter="";
             })
         }
@@ -271,12 +269,60 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     fitfire.getLesson(function (_d) {
         admin.lesson = _d;
     });
+    // Speciality
     fitfire.getSpeciality(function (_d) {
         admin.speciality = _d;
     });
+    admin.addSpec = {
+        name: "",
+        id_faculty: null
+    };
+    admin.setAddSpecality = function () {
+        admin.addSpec = {
+            name: "",
+            id_faculty: null
+        };
 
-// Факультет
-
+        admin.correctSpeciality = 'Введіть назву спеціальності';
+    };
+    admin.addSpeciality = function () {
+        admin.sendSpec={};
+        admin.sendSpec = {
+            name: admin.addSpec.name,
+            id_faculty: parseInt(admin.addSpec.id_faculty)
+        }
+        if (admin.addSpec.name != ""&& admin.addSpec.id_faculty!=null) {
+            fitfire.addSpeciality(admin.sendSpec, function () {
+                admin.setAddSpecality();
+                admin.specialityFilter = "";
+                alert("Спеціальність додано");
+            });
+        }
+        else {
+            alert("Введіть коректні дані");
+        }
+    };
+    admin.SetEditSpecality= function (_speciality) {
+        $log.debug(admin.addSpec);
+        admin.correctSpeciality = 'Відредагуйте Спеціальність';
+        admin.addSpec = fitfire.SetSpecialnist(_speciality.$id);
+    };
+    admin.UpdateSpec = function (_speciality) {
+        fitfire.updateSpec(_speciality).then(function () {
+            alert("Запис відредаговано");
+            admin.setAddSpecality();
+        })
+    };
+    admin.RemoveSpec = function (_spec) {
+        admin.result = confirm("Ви впевнені, що хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
+        if (admin.result) {
+            fitfire.RemoveSpec(fitfire.SetSpecialnist(_spec.$id)).then(function () {
+                alert("Запис видалено");
+                admin.setAddSpecality();
+                admin.specialityFilter="";
+            })
+        }
+    }
 }
 /**
  * Created by jura- on 26.09.2016.

@@ -1,101 +1,146 @@
-<div class="well">
-    <div class="container">
-        <form>
-            <!--Дивципліна-->
-            <div class="form-group">
-                <label for="lesson" class="col-md-2 control-label">Дисципліна</label>
-                <div class="col-md-10">
-                    <select id="lesson" class="form-control" ng-model="admin.lessonFilter" ng-options="lesson.name for lesson in admin.lesson track by lesson.$id">
-                        <option value=""> </option>
-                    </select>
-                    <button ng-click="admin.SetAddLesson()" type="button"
-                            class="btn btn-primary" data-toggle="modal" data-target="#lesson-dialog">Додати дисципліну
-                    </button>
-                    <button ng-click="admin.SetEditDusc(admin.lessonFilter)" ng-if="admin.lessonFilter"
-                            data-toggle="modal" data-target="#lesson-dialog" class="btn btn-raised btn-info">Редагувати
-                    </button>
-                    <button ng-click="admin.RemoveDusc(admin.lessonFilter.$id)" ng-if="admin.lessonFilter"
-                            class="btn btn-raised btn-danger">Видалити
-                    </button>
+<div class="filter">
+
+    <div class="well">
+        <div class="container">
+            <form>
+                <!--Дивципліна-->
+                <div class="form-group">
+                    <label for="lesson" class="col-md-2 control-label">Дисципліна</label>
+                    <div class="col-md-10">
+                        <select id="lesson" class="form-control" ng-model="admin.lessonFilter"
+                                ng-options="lesson.name for lesson in admin.lesson track by lesson.$id">
+                            <option value=""></option>
+                        </select>
+                        <button ng-click="admin.SetAddLesson()" type="button"
+                                class="btn btn-primary" data-toggle="modal" data-target="#lesson-dialog">Додати
+                            дисципліну
+                        </button>
+                        <button ng-click="admin.SetEditDusc(admin.lessonFilter)" ng-if="admin.lessonFilter"
+                                data-toggle="modal" data-target="#lesson-dialog" class="btn btn-raised btn-info">
+                            Редагувати
+                        </button>
+                        <button ng-click="admin.RemoveDusc(admin.lessonFilter.$id)" ng-if="admin.lessonFilter"
+                                class="btn btn-raised btn-danger">Видалити
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div id="lesson-dialog" class="modal fade in" tabindex="-1" style="display: none;">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <form>
-                                <label for="dusc.add" class=" lead control-label">{{admin.correctDusc}}</label>
-                                <input id="dusc.add" type="text" ng-model="admin.addLesson.name" class="form-control">
-                                <button ng-if="!admin.addLesson.$id" class="btn btn-raised btn-info"
-                                        ng-click="admin.addless()" data-dismiss="modal">
-                                    Додати
-                                </button>
-                                <button ng-if="admin.addLesson.$id" class="btn btn-raised btn-info"
-                                        ng-click="admin.UpdateDusc(admin.addLesson)"
-                                        data-dismiss="modal">Відредагувати
-                                </button>
-                            </form>
+                <div id="lesson-dialog" class="modal fade in" tabindex="-1" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form>
+                                    <label for="dusc.add" class=" lead control-label">{{admin.correctDusc}}</label>
+                                    <input id="dusc.add" type="text" ng-model="admin.addLesson.name"
+                                           class="form-control">
+                                    <button ng-if="!admin.addLesson.$id" class="btn btn-raised btn-info"
+                                            ng-click="admin.addless()" data-dismiss="modal">
+                                        Додати
+                                    </button>
+                                    <button ng-if="admin.addLesson.$id" class="btn btn-raised btn-info"
+                                            ng-click="admin.UpdateDusc(admin.addLesson)"
+                                            data-dismiss="modal">Відредагувати
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--end Дисципліна-->
-            <!--Факультет-->
-            <div class="form-group">
-                <label for="facult" class="col-md-2 control-label">Факультет</label>
-                <div class="col-md-10">
-                    <select id="facult" class="form-control" ng-model="admin.facultFilter" ng-options="facultet.name for facultet in admin.facultet track by facultet.$id">
-                        <option value=""> </option>
-                    </select>
-                    <button ng-click="admin.setAddFacultet()" type="button"
-                            class="btn btn-primary" data-toggle="modal" data-target="#facult-dialog">Додати факультет
-                    </button>
-                    <button ng-click="admin.SetEditFacultet(admin.facultFilter)" ng-if="admin.facultFilter.$id"
-                            data-toggle="modal" data-target="#facult-dialog" class="btn btn-raised btn-info">Редагувати
-                    </button>
-                    <button ng-click="admin.RemoveFacult(admin.facultFilter.$id)" ng-if="admin.facultFilter.$id"
-                            class="btn btn-raised btn-danger">Видалити
-                    </button>
+                <!--end Дисципліна-->
+                <!--Факультет-->
+                <div class="form-group">
+                    <label for="facult" class="col-md-2 control-label">Факультет</label>
+                    <div class="col-md-10">
+                        <select id="facult" class="form-control" ng-model="admin.facultFilter"
+                                ng-options="facultet.name for facultet in admin.facultet track by facultet.$id">
+                            <option value=""></option>
+                        </select>
+                        <button ng-click="admin.setAddFacultet()" type="button"
+                                class="btn btn-primary" data-toggle="modal" data-target="#facult-dialog">Додати
+                            факультет
+                        </button>
+                        <button ng-click="admin.SetEditFacultet(admin.facultFilter)" ng-if="admin.facultFilter.$id"
+                                data-toggle="modal" data-target="#facult-dialog" class="btn btn-raised btn-info">
+                            Редагувати
+                        </button>
+                        <button ng-click="admin.RemoveFacult(admin.facultFilter.$id)" ng-if="admin.facultFilter.$id"
+                                class="btn btn-raised btn-danger">Видалити
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div id="facult-dialog" class="modal fade in" tabindex="-1" style="display: none;">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <form>
-                                <label for="fuacult.add" class=" lead control-label">{{admin.correctFacult}}</label>
-                                <input id="fuacult.add" type="text" ng-model="admin.addFacult.name" class="form-control">
-                                <button ng-if="!admin.addFacult.$id" class="btn btn-raised btn-info"
-                                        ng-click="admin.addFacultet()" data-dismiss="modal">
-                                    Додати
-                                </button>
-                                <button ng-if="admin.addFacult.$id" class="btn btn-raised btn-info"
-                                        ng-click="admin.UpdateFacult(admin.addFacult)"
-                                        data-dismiss="modal">Відредагувати
-                                </button>
-                            </form>
+                <div id="facult-dialog" class="modal fade in" tabindex="-1" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form>
+                                    <label for="fuacult.add" class=" lead control-label">{{admin.correctFacult}}</label>
+                                    <input id="fuacult.add" type="text" ng-model="admin.addFacult.name"
+                                           class="form-control">
+                                    <button ng-if="!admin.addFacult.$id" class="btn btn-raised btn-info"
+                                            ng-click="admin.addFacultet()" data-dismiss="modal">
+                                        Додати
+                                    </button>
+                                    <button ng-if="admin.addFacult.$id" class="btn btn-raised btn-info"
+                                            ng-click="admin.UpdateFacult(admin.addFacult)"
+                                            data-dismiss="modal">Відредагувати
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--end facult-->
-            <!--begin Speciality-->
-            <div class="form-group" ng-if="admin.facultFilter">
-                <label for="speciality" class="col-md-2 control-label">Спеціальність</label>
-                <div class="col-md-10">
-                    <select id="speciality" class="form-control" ng-model="admin.specialityFilter">
-                        <option ng-repeat="speciality in admin.speciality" value="{{$index}}">{{speciality.name}}
-                        </option>
-                    </select>
-                    <button ng-click="admin.check()" class="btn btn-raised btn-primary">Додати спеціальність</button>
-                    <button ng-if="admin.specialityFilter" ng-click="admin.check()" class="btn btn-raised btn-info">
-                        Редагувати
-                    </button>
-                    <button ng-if="admin.specialityFilter" class="btn btn-raised btn-danger">Видалити</button>
+                <!--end facult-->
+                <!--begin Speciality-->
+                <div class="form-group" ng-if="admin.facultFilter">
+                    <label for="speciality" class="col-md-2 control-label">Спеціальність</label>
+                    <div class="col-md-10">
+                        <select id="speciality" class="form-control" ng-model="admin.specialityFilter"
+                                ng-options="speciality.name for speciality in admin.speciality | filter: {id_faculty: admin.facultFilter.$id} track by speciality.$id">
+                            <option value=""></option>
+                        </select>
+                        <button ng-click="admin.setAddSpecality()" class="btn btn-raised btn-primary"
+                                data-toggle="modal"
+                                data-target="#speciality-dialog">Додати спеціальність
+                        </button>
+                        <button ng-if="admin.specialityFilter" ng-click="admin.SetEditSpecality(admin.specialityFilter)"
+                                class="btn btn-raised btn-info"
+                                data-toggle="modal" data-target="#speciality-dialog">
+                            Редагувати
+                        </button>
+                        <button ng-if="admin.specialityFilter" class="btn btn-raised btn-danger" ng-click="admin.RemoveSpec(admin.specialityFilter)">Видалити</button>
+                    </div>
                 </div>
-            </div>
-            <!--begin Speciality-->
-        </form>
+                <div id="speciality-dialog" class="modal fade in" tabindex="-1" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <form>
+                                    <p>{{admin.addSpec}}</p>
+                                    <label for="speciality.add"
+                                           class=" lead control-label">{{admin.correctSpeciality}}</label>
+                                    <input id="speciality.add" type="text" ng-model="admin.addSpec.name"
+                                           class="form-control">
+                                    <label for="spaciality.facult" class=" lead control-label">Факультет:</label>
+                                    <select id="spaciality.facult" class="form-control"
+                                            ng-model="admin.addSpec.id_faculty">
+                                        <option ng-repeat="facult in admin.facultet" ng-value="facult.$id">{{facult.name}}
+                                        </option>
+                                    </select>
+                                    <button ng-if="!admin.addSpec.$id" class="btn btn-raised btn-info"
+                                            ng-click="admin.addSpeciality()" data-dismiss="modal">
+                                        Додати
+                                    </button>
+                                    <button ng-if="admin.addSpec.$id" class="btn btn-raised btn-info"
+                                            ng-click="admin.UpdateSpec(admin.addSpec)"
+                                            data-dismiss="modal">Відредагувати
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end Speciality-->
+            </form>
+        </div>
     </div>
 </div>
 <table class="table table-striped table-hover ">
