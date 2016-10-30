@@ -41,6 +41,7 @@
                                         ng-click="admin.UpdateDusc(admin.addLesson)"
                                         data-dismiss="modal">Відредагувати
                                 </button>
+                                <button data-dismiss="modal" class="btn btn-raised btn-default">Закрити</button>
                             </form>
                         </div>
                     </div>
@@ -84,6 +85,7 @@
                                         ng-click="admin.UpdateFacult(admin.addFacult)"
                                         data-dismiss="modal">Відредагувати
                                 </button>
+                                <button data-dismiss="modal" class="btn btn-raised btn-default">Закрити</button>
                             </form>
                         </div>
                     </div>
@@ -123,7 +125,6 @@
                                 <input id="speciality.add" type="text" ng-model="admin.addSpec.name"
                                        class="form-control">
                                 <label for="spaciality.facult" class=" lead control-label">Факультет:</label>
-                                <p>{{admin.addSpec.id_faculty}}</p>
                                 <select id="spaciality.facult" class="form-control"
                                         ng-model="admin.addSpec.id_faculty">
                                     <option ng-repeat="facult in admin.facultet" ng-value="facult.$id">
@@ -138,6 +139,7 @@
                                         ng-click="admin.UpdateSpec(admin.addSpec)"
                                         data-dismiss="modal">Відредагувати
                                 </button>
+                                <button data-dismiss="modal" class="btn btn-raised btn-default">Закрити</button>
                             </form>
                         </div>
                     </div>
@@ -190,12 +192,65 @@
                                         ng-click="admin.UpdateGroup(admin.addGroup)"
                                         data-dismiss="modal">Відредагувати
                                 </button>
+                                <button data-dismiss="modal" class="btn btn-raised btn-default">Закрити</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
             <!--end Group-->
+            <!--begin Teacher-->
+            <div class="form-group">
+                <label for="teacher" class="col-md-2 control-label">Викаладач</label>
+                <div class="col-md-10">
+                    <select id="teacher" class="form-control" ng-model="admin.teacherFilter"
+                            ng-options="teacher.surname+' '+teacher.name+' '+teacher.secondname for teacher in admin.teacher track by teacher.$id">
+                        <option value=""></option>
+                    </select>
+                    <button ng-click="admin.SetAddTeacher()" type="button"
+                            class="btn btn-primary" data-toggle="modal" data-target="#teacher-dialog">Додати
+                        викладача
+                    </button>
+                    <button ng-click="admin.SetEditTeacher(admin.teacherFilter)" ng-if="admin.teacherFilter"
+                            data-toggle="modal" data-target="#teacher-dialog" class="btn btn-raised btn-info">
+                        Редагувати
+                    </button>
+                    <button ng-click="admin.RemoveTeacher(admin.teacherFilter)" ng-if="admin.teacherFilter"
+                            class="btn btn-raised btn-danger">Видалити
+                    </button>
+                </div>
+            </div>
+            <div id="teacher-dialog" class="modal fade in" tabindex="-1" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form>
+                                <h3>{{admin.correctTeacher}}</h3>
+                                <label for="teacher.add.surname" class=" lead control-label">Прізвище</label>
+                                <input id="teacher.add.surname" type="text" ng-model="admin.addTeacher.surname"
+                                       class="form-control">
+                                <label for="teacher.add.name" class=" lead control-label">Ім'я</label>
+                                <input id="teacher.add.name" type="text" ng-model="admin.addTeacher.name"
+                                       class="form-control">
+
+                                <label for="teacher.add.lastname" class=" lead control-label">По батькові</label>
+                                <input id="teacher.add.lastname" type="text" ng-model="admin.addTeacher.secondname"
+                                       class="form-control">
+                                <button ng-if="!admin.addTeacher.$id" class="btn btn-raised btn-info"
+                                        ng-click="admin.addTeacherFunc()" data-dismiss="modal">
+                                    Додати
+                                </button>
+                                <button ng-if="admin.addTeacher.$id" class="btn btn-raised btn-info"
+                                        ng-click="admin.UpdateTeacher(admin.addTeacher)"
+                                        data-dismiss="modal">Відредагувати
+                                </button>
+                                <button data-dismiss="modal" class="btn btn-raised btn-default">Закрити</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--endTeacher-->
         </form>
     </div>
 </div>

@@ -115,7 +115,28 @@ function Config($stateProvider, $urlRouterProvider) {
         this.getTeachers = function (cb) {
             return TeachersArr.$loaded(cb);
         };
-        // NumberOfPair
+        // add teacher
+        this.addTeacher = function (_teach, _cb) {
+            var TeachLength = $firebaseObject(ref.child('id_count').child('teachers'));
+            TeachLength.$loaded(function () {
+                var TLength = ++TeachLength.$value;
+                TeachLength.$save();
+                ref.child('teachers').child(TLength).set(_teach, _cb);
+            });
+        };
+        // set teacher
+        this.SetTeacher =function (_id) {
+            return TeachersArr.$getRecord(_id);
+        }
+// update teacher
+        this.updateTeacher = function (_teacher) {
+            return TeachersArr.$save(_teacher);
+        };
+        this.RemoveTeacher = function (_teacher) {
+            return TeachersArr.$remove(_teacher);
+        };
+        // NumberOfPai
+        // r
         this.getNumberofPair = function (cb) {
             return NumberOfPairArr.$loaded(cb);
         };
@@ -283,7 +304,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         $log.debug(admin.group);
     });
     admin.setAddGroup = function () {
-        admin.addGroup= {
+        admin.addGroup = {
             name: "",
             id_specialty: null
         };
@@ -297,7 +318,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
             });
         }
         else {
-            alert("Введіть назву дисципліни");
+            alert("Введіть назву групи");
         }
     };
     admin.SetEditGroup = function (_group) {
@@ -323,9 +344,45 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         }
     }
     // End Group
+    // begin teacher
     fitfire.getTeachers(function (_d) {
         admin.teacher = _d;
     });
+    admin.SetAddTeacher = function () {
+        admin.addTeacher = {
+            name: "",
+            secondname: "",
+            surname: ""
+        };
+        admin.correctTeacher = 'Введіть викладача';
+    }
+    admin.addTeacherFunc = function () {
+        fitfire.addTeacher(admin.addTeacher, function () {
+            admin.SetAddTeacher();
+            alert("Викладача додано");
+        });
+    };
+    admin.SetEditTeacher = function (_teacher) {
+        admin.correctTeacher = 'Відредагуйте викладача';
+        admin.addTeacher = fitfire.SetTeacher(_teacher.$id);
+    }
+// Update Teacher
+    admin.UpdateTeacher = function (_teacher) {
+        fitfire.updateTeacher(_teacher).then(function () {
+            alert("Запис відредаговано");
+            admin.SetAddTeacher();
+        })
+    };
+    admin.RemoveTeacher = function (_teacher) {
+        admin.result = confirm("Ви впевнені, що хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
+        if (admin.result) {
+            fitfire.RemoveTeacher(fitfire.SetTeacher(_teacher.$id)).then(function () {
+                alert("Запис видалено");
+                admin.SetAddTeacher();
+            })
+        }
+    }
+    // end teacher
     fitfire.getNumberofPair(function (_d) {
         admin.NumberofPair = _d;
     });
