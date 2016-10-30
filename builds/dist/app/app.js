@@ -247,7 +247,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
             fitfire.RemoveFacult(fitfire.SetFacultet(_id)).then(function () {
                 alert("Запис видалено");
                 admin.setAddFacultet();
-                admin.facultFilter="";
+                admin.facultFilter = "";
             })
         }
     }
@@ -258,6 +258,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
 
     fitfire.getGroup(function (_d) {
         admin.group = _d;
+        $log.debug(admin.group);
     });
     fitfire.getTeachers(function (_d) {
         admin.teacher = _d;
@@ -286,15 +287,17 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         admin.correctSpeciality = 'Введіть назву спеціальності';
     };
     admin.addSpeciality = function () {
-        admin.sendSpec={};
+        admin.sendSpec = {};
         admin.sendSpec = {
             name: admin.addSpec.name,
             id_faculty: parseInt(admin.addSpec.id_faculty)
         }
-        if (admin.addSpec.name != ""&& admin.addSpec.id_faculty!=null) {
+        angular.element("#addSpec").button('loading');
+        if (admin.addSpec.name != "" && admin.addSpec.id_faculty != null) {
             fitfire.addSpeciality(admin.sendSpec, function () {
                 admin.setAddSpecality();
                 admin.specialityFilter = "";
+                angular.element("#addSpec").button('reset');
                 alert("Спеціальність додано");
             });
         }
@@ -302,7 +305,8 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
             alert("Введіть коректні дані");
         }
     };
-    admin.SetEditSpecality= function (_speciality) {
+
+    admin.SetEditSpecality = function (_speciality) {
         $log.debug(admin.addSpec);
         admin.correctSpeciality = 'Відредагуйте Спеціальність';
         admin.addSpec = fitfire.SetSpecialnist(_speciality.$id);
@@ -313,16 +317,22 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
             admin.setAddSpecality();
         })
     };
+    //
     admin.RemoveSpec = function (_spec) {
         admin.result = confirm("Ви впевнені, що хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
         if (admin.result) {
             fitfire.RemoveSpec(fitfire.SetSpecialnist(_spec.$id)).then(function () {
                 alert("Запис видалено");
                 admin.setAddSpecality();
-                admin.specialityFilter="";
+                admin.specialityFilter = "";
             })
         }
     }
+    angular.element('#speciality-dialog').on('hidden.bs.modal', function (e) {
+        $log.debug("lol");
+        admin.setAddSpecality();
+    })
+
 }
 /**
  * Created by jura- on 26.09.2016.
