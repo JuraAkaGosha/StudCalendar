@@ -1,4 +1,4 @@
-<div class="well ">
+<div class="well filter">
     <button class="btn btn-raised btn-info " data-toggle="collapse" href="#filter_area" aria-expanded="false"
             aria-controls="filter_area">Фильтры
     </button>
@@ -264,127 +264,123 @@
         </form>
     </div>
 </div>
-<button class="btn btn-raised btn-primary" data-toggle="collapse" href="#addLesson" aria-expanded="false"
-        aria-controls="addLesson">Додати заняття
+<button data-toggle="modal" data-target="#para-dialog" class="btn btn-raised btn-primary">Додати заняття
 </button>
-<div id="addLesson">
-    <form>
-        <div class="form-group">
-            <label for="add_mainDusc" class="col-md-2 control-label">Дисципліна</label>
-            <div class="col-md-10">
-                <select ng-model="admin.addMain.id_lesson" id="add_mainDusc" class="form-control">
-                    <option ng-value="lesson.$id" ng-repeat="lesson in admin.lesson">{{lesson.name}}</option>
-                </select>
+<div id="para-dialog" class="modal fade in" role="dialog" tabindex="-1" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="addLesson">
+                    <form>
+                        <div class="form-group">
+                            <label for="add_mainDusc" class="control-label">Дисципліна</label>
+                            <div>
+                                <select ng-model="admin.addMain.id_lesson" id="add_mainDusc" class="form-control">
+                                    <option ng-value="lesson.$id" ng-repeat="lesson in admin.lesson">{{lesson.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="day" class="control-label">День неділі</label>
+                            <div>
+                                <select ng-model="admin.addMain.day" id="day" class="form-control">
+                                    <option ng-value="day.$id" ng-repeat="day in admin.day">{{day.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="auditory" class=" control-label">Аудиторія</label>
+                            <div>
+                                <input class="form-control" type="text" id="auditory" ng-model="admin.addMain.auditory">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_mainFacult" class="control-label">Факультет</label>
+                            <div>
+                                <select class="form-control" type="text" id="add_mainFacult"
+                                        ng-model="admin.filterToAddFacult">
+                                    <option ng-value="facult.$id" ng-repeat="facult in admin.facultet">{{facult.name}}
+                                    </option>
+                                    <option ng-value=""></option>
+                                </select>
+                            </div>
+                            <label for="add_mainSpec" class="control-label">Спеціальність</label>
+                            <div>
+                                <select class="form-control" type="text" id="add_mainSpec"
+                                        ng-model="admin.filterToAddSpec">
+                                    <option ng-value="spec.$id"
+                                            ng-repeat="spec in admin.speciality | filter: {id_faculty: admin.filterToAddFacult}">
+                                        {{spec.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <label for="add_mainGroup" class=" control-label">Група</label>
+                            <div>
+                                <select class="form-control" type="text" id="add_mainGroup"
+                                        ng-model="admin.addMain.id_group">
+                                    <option ng-value="group.$id"
+                                            ng-repeat="group in admin.group | filter: {id_specialty: admin.filterToAddSpec}">
+                                        {{group.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <label for="add_mainNumberPair" class="control-label">Номер пари</label>
+                            <div>
+                                <select class="form-control" type="text" id="add_mainNumberPair"
+                                        ng-model="admin.addMain.id_numberOfpair">
+                                    <option ng-value="num.$id"
+                                            ng-repeat="num in admin.NumberofPair">
+                                        {{num.$id}}
+                                    </option>
+                                </select>
+                            </div>
+                            <label for="add_mainTeacher" class="control-label">Викладач</label>
+                            <div>
+                                <select class="form-control" type="text" id="add_mainTeacher"
+                                        ng-model="admin.addMain.id_teacher">
+                                    <option ng-value="teacher.$id"
+                                            ng-repeat="teacher in admin.teacher">
+                                        {{teacher.surname +" "+teacher.name+ " "+ teacher.secondname }}
+                                    </option>
+                                </select>
+                            </div>
+                            <label for="add_mainUnderGroup" class="control-label">Підгрупа</label>
+                            <div>
+                                <input class="form-control" type="text" id="add_mainUnderGroup"
+                                       ng-model="admin.addMain.undergroup">
+                            </div>
+                        </div>
+                        <button  ng-if="!admin.addMain.$id" data-dismiss="modal" class="btn btn-raised btn-primary" ng-click="admin.addMainFunc()">Завантажити пару
+                        </button>
+                        <button ng-if="admin.addMain.$id" data-dismiss="modal" class="btn btn-raised btn-info" ng-click="admin.EditMainFunc()">Редагувати
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="day" class="col-md-2 control-label">День неділі</label>
-            <div class="col-md-10">
-                <select ng-model="admin.addMain.day" id="day" class="form-control">
-                    <option ng-value="day.$id" ng-repeat="day in admin.day">{{day.name}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="auditory" class="col-md-2 control-label">Аудиторія</label>
-            <div class="col-md-10">
-                <input class="form-control" type="text" id="auditory" ng-model="admin.addMain.auditory">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_mainFacult" class="col-md-2 control-label">Факультет</label>
-            <div class="col-md-10">
-                <select class="form-control" type="text" id="add_mainFacult" ng-model="admin.filterToAddFacult">
-                    <option ng-value="facult.$id" ng-repeat="facult in admin.facultet">{{facult.name}}</option>
-                    <option ng-value=""></option>
-                </select>
-            </div>
-            <label for="add_mainSpec" class="col-md-2 control-label">Спеціальність</label>
-            <div class="col-md-10">
-                <select class="form-control" type="text" id="add_mainSpec" ng-model="admin.filterToAddSpec">
-                    <option ng-value="spec.$id"
-                            ng-repeat="spec in admin.speciality | filter: {id_faculty: admin.filterToAddFacult}">
-                        {{spec.name}}
-                    </option>
-                </select>
-            </div>
-            <label for="add_mainSpec" class="col-md-2 control-label">Група</label>
-            <div class="col-md-10">
-                <select class="form-control" type="text" id="add_mainGroup" ng-model="admin.addMain.id_group">
-                    <option ng-value="group.$id"
-                            ng-repeat="group in admin.group | filter: {id_specialty: admin.filterToAddSpec}">
-                        {{group.name}}
-                    </option>
-                </select>
-            </div>
-            <label for="add_mainNumberPair" class="col-md-2 control-label">Номер пари</label>
-            <div class="col-md-10">
-                <select class="form-control" type="text" id="add_mainNumberPair" ng-model="admin.addMain.id_numberOfpair">
-                    <option ng-value="num.$id"
-                            ng-repeat="num in admin.NumberofPair">
-                        {{num.$id}}
-                    </option>
-                </select>
-            </div>
-            <label for="add_mainTeacher" class="col-md-2 control-label">Викладач</label>
-            <div class="col-md-10">
-                <select class="form-control" type="text" id="add_mainTeacher" ng-model="admin.addMain.teacher">
-                    <option ng-value="teacher.$id"
-                            ng-repeat="teacher in admin.teacher">
-                        {{teacher.surname +" "+teacher.name+ " "+ teacher.secondname }}
-                    </option>
-                </select>
-            </div>
-            <label for="add_mainUnderGroup" class="col-md-2 control-label">Підгрупа</label>
-            <div class="col-md-10">
-                <input class="form-control" type="text" id="add_mainUnderGroup" ng-model="admin.addMain.undergroup">
-            </div>
-        </div>
-            <button class="btn btn-raised btn-primary" ng-click="admin.addMainFunc()">Завантажити пару</button>
-    </form>
+    </div>
 </div>
-<table class="table table-striped table-hover ">
+
+<table class="table table-striped table-hover admin-table">
     <thead>
     <td>Час заняття</td>
     <td>Назва заняття</td>
     <td>Група</td>
     <td>Аудиторія</td>
     <td>Викладач</td>
-    <tr ng-repeat="para in admin.main">
+    <tr ng-repeat="para in admin.main | filter: {id_lesson: admin.lessonFilter.$id, id_teacher: admin.teacherFilter.$id}">
         <td>{{admin.NumberofPair[para.id_numberOfpair].begin+" - "+admin.NumberofPair[para.id_numberOfpair].end}}</td>
-        <!--<td ng-repeat="lesson in admin.less">{{ | filter: {$id: para.id_lesson}}}</td>-->
-        <td></td>
+        <td>{{admin.lessonShow(para.id_lesson)}}</td>
+        <td>{{admin.GroupShow(para.id_group)}}</td>
+        <td>{{para.auditory}}</td>
+        <td>{{admin.ShowTeacher(para.id_teacher)}}</td>
+        <td>
+            <button  data-toggle="modal" data-target="#para-dialog" ng-click="admin.SetEditMain(para)" class="btn btn-info btn-fab"><i
+                    class="material-icons">mode_edit</i></button>
+            <button class="btn btn-warning btn-fab"><i class="material-icons">delete_sweep</i></button>
+        </td>
     </tr>
 
     </thead>
 </table>
-<!--<table class="table table-striped table-hover ">-->
-<!--<thead>-->
-<!--</thead>-->
-<!--<tr>-->
-<!--<td>Понеділок</td>-->
-<!--</tr>-->
-<!--<tr ng-repeat="para in admin.main | filter: {day: 1, id_lesson: admin.lessonFilter.$id}">-->
-<!--<td>{{para.id_numberOfpair}}</td>-->
-<!--<td>{{admin.lesson[para.id_lesson].name}}</td>-->
-<!--<td>Група: {{admin.group[para.id_group].name}}</td>-->
-<!--<td>День: {{admin.massday[para.day].name}}</td>-->
-<!--<td>Аудиторія: {{para.auditory}}</td>-->
-<!--<td>Викладач: {{admin.teacher[para.id_teacher].secondname}} {{admin.teacher[para.id_teacher].name}}-->
-<!--{{admin.teacher[para.id_teacher].surname}}-->
-<!--</td>-->
-<!--</tr>-->
-<!--<tr>-->
-<!--<td>Вівторок</td>-->
-<!--</tr>-->
-<!--<tr ng-repeat="para in admin.main | filter: {day: 2, id_lesson: admin.lessonFilter.$id}">-->
-<!--<td>{{para.id_numberOfpair}}</td>-->
-<!--<td>{{admin.lesson[para.id_lesson].name}}</td>-->
-<!--<td>Група: {{admin.group[para.id_group].name}}</td>-->
-<!--<td>День: {{admin.massday[para.day].name}}</td>-->
-<!--<td>Аудиторія: {{para.auditory}}</td>-->
-<!--<td>Викладач: {{admin.teacher[para.id_teacher].secondname}} {{admin.teacher[para.id_teacher].name}}-->
-<!--{{admin.teacher[para.id_teacher].surname}}-->
-<!--</td>-->
-<!--</tr>-->
-<!--</table>-->

@@ -199,6 +199,9 @@ function Config($stateProvider, $urlRouterProvider) {
                 ref.child('main').child(MLength).set(_main, _cb);
             });
         };
+        this.SetMain = function (_id) {
+            return mainArr.$getRecord(_id);
+        }
     }
 })()
 /**
@@ -470,16 +473,27 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         fitfire.addMain(admin.addMain, function () {
             admin.setAddSpecality();
             admin.addMain = "";
-            admin.filterToAddFacult ="";
+            admin.filterToAddFacult = "";
             angular.element("#addSpec").button('reset');
             alert("Спеціальність додано");
         });
     }
+    admin.SetEditMain = function (_main) {
+        admin.addMain = fitfire.SetMain(_main.$id);
+    };
     angular.element('#speciality-dialog').on('hidden.bs.modal', function (e) {
         $log.debug("lol");
         admin.setAddSpecality();
     });
-
+    admin.lessonShow = function (_id_lesson) {
+        return fitfire.SetDusc(_id_lesson).name;
+    }
+    admin.GroupShow = function (_id_group) {
+        return fitfire.SetGroup(_id_group).name;
+    }
+    admin.ShowTeacher = function (_teacher) {
+        return fitfire.SetTeacher(_teacher).surname + " "+fitfire.SetTeacher(_teacher).name + " "+fitfire.SetTeacher(_teacher).secondname;
+    }
 }
 /**
  * Created by jura- on 26.09.2016.

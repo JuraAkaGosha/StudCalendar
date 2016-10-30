@@ -166,5 +166,8 @@
                 ref.child('main').child(MLength).set(_main, _cb);
             });
         };
+        this.SetMain = function (_id) {
+            return mainArr.$getRecord(_id);
+        }
     }
 })()
