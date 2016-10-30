@@ -19,8 +19,12 @@
             facultyRef = ref.child('faculty'),
             facultyArr = $firebaseArray(ref.child('faculty')),
             lessonArr =$firebaseArray(ref.child('lesson')),
+            DayArr =$firebaseArray(ref.child('day')),
             specialityArr = $firebaseArray(ref.child('specialty')),
             mainArr = $firebaseArray(mainRef);
+        this.getDay = function (cb) {
+            return DayArr.$loaded(cb);
+        };
         // Main
         this.getMain = function (cb) {
             return mainArr.$loaded(cb);
@@ -153,6 +157,14 @@
         };
         this.RemoveSpec = function (_spec) {
             return specialityArr.$remove(_spec);
+        };
+        this.addMain = function(_main, _cb){
+            var MainLength = $firebaseObject(ref.child('id_count').child('main'));
+            MainLength.$loaded(function () {
+                var MLength = ++MainLength.$value;
+                MainLength.$save();
+                ref.child('main').child(MLength).set(_main, _cb);
+            });
         };
     }
 })()

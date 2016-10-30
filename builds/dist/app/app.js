@@ -52,8 +52,12 @@ function Config($stateProvider, $urlRouterProvider) {
             facultyRef = ref.child('faculty'),
             facultyArr = $firebaseArray(ref.child('faculty')),
             lessonArr =$firebaseArray(ref.child('lesson')),
+            DayArr =$firebaseArray(ref.child('day')),
             specialityArr = $firebaseArray(ref.child('specialty')),
             mainArr = $firebaseArray(mainRef);
+        this.getDay = function (cb) {
+            return DayArr.$loaded(cb);
+        };
         // Main
         this.getMain = function (cb) {
             return mainArr.$loaded(cb);
@@ -187,6 +191,14 @@ function Config($stateProvider, $urlRouterProvider) {
         this.RemoveSpec = function (_spec) {
             return specialityArr.$remove(_spec);
         };
+        this.addMain = function(_main, _cb){
+            var MainLength = $firebaseObject(ref.child('id_count').child('main'));
+            MainLength.$loaded(function () {
+                var MLength = ++MainLength.$value;
+                MainLength.$save();
+                ref.child('main').child(MLength).set(_main, _cb);
+            });
+        };
     }
 })()
 /**
@@ -200,6 +212,10 @@ angular.module('Calendar.admin', ['ui.router'])
 AdminCtrl.$inject = ['$scope', '$rootScope', '$log', 'FIREBASE_URL', 'fitfire'];
 function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     var admin = this;
+    //day
+    fitfire.getDay(function (_d) {
+        admin.day = _d;
+    });
     // admin lesson
     admin.addLesson = {
         name: ""
@@ -240,10 +256,8 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         })
     };
     admin.RemoveDusc = function (_id) {
-        $log.debug(_id);
         admin.result = confirm("Ви впевнені, що хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
         if (admin.result) {
-            $log.debug(admin.addLesson);
             fitfire.RemoveLesson(fitfire.SetDusc(_id)).then(function () {
                 alert("Запис видалено");
                 admin.lessonFilter = "";
@@ -301,7 +315,6 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
 // Group
     fitfire.getGroup(function (_d) {
         admin.group = _d;
-        $log.debug(admin.group);
     });
     admin.setAddGroup = function () {
         admin.addGroup = {
@@ -387,9 +400,6 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
         admin.NumberofPair = _d;
     });
 
-    fitfire.getLesson(function (_d) {
-        admin.lesson = _d;
-    });
     // Speciality
     fitfire.getSpeciality(function (_d) {
         admin.speciality = _d;
@@ -427,7 +437,6 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     };
 
     admin.SetEditSpecality = function (_speciality) {
-        $log.debug(admin.addSpec);
         admin.correctSpeciality = 'Відредагуйте Спеціальність';
         admin.addSpec = fitfire.SetSpecialnist(_speciality.$id);
     };
@@ -448,10 +457,28 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
             })
         }
     };
+    admin.reset = function () {
+        admin.specialityFilter = "";
+        admin.groupFilter = "";
+        admin.teacherFilter = "";
+        admin.facultFilter = "";
+        admin.specialityFilter = "";
+        admin.lessonFilter = "";
+    };
+    admin.addMainFunc = function () {
+        $log.debug(admin.addMain);
+        fitfire.addMain(admin.addMain, function () {
+            admin.setAddSpecality();
+            admin.addMain = "";
+            admin.filterToAddFacult ="";
+            angular.element("#addSpec").button('reset');
+            alert("Спеціальність додано");
+        });
+    }
     angular.element('#speciality-dialog').on('hidden.bs.modal', function (e) {
         $log.debug("lol");
         admin.setAddSpecality();
-    })
+    });
 
 }
 /**
