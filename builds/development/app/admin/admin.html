@@ -91,7 +91,7 @@
             </div>
             <!--end facult-->
             <!--begin Speciality-->
-            <div class="form-group" ng-if="admin.facultFilter">
+            <div class="form-group">
                 <label for="speciality" class="col-md-2 control-label">Спеціальність</label>
                 <div class="col-md-10">
                     <select id="speciality" class="form-control" ng-model="admin.specialityFilter"
@@ -145,24 +145,24 @@
             </div>
             <!--end Speciality-->
             <!--begin Group-->
-            <div class="form-group" ng-if="admin.specialityFilter">
-                <label for="speciality" class="col-md-2 control-label">Група</label>
+            <div class="form-group">
+                <label for="group" class="col-md-2 control-label">Група</label>
                 <div class="col-md-10">
                     <select id="group" class="form-control" ng-model="admin.groupFilter"
-                            ng-options="group.name for group in admin.group | filter: {id_speciality: admin.specialityFilter} track by group.$id">
+                            ng-options="group.name for group in admin.group | filter:{id_specialty: admin.specialityFilter.$id} track by group.$id">
                         <option value=""></option>
                     </select>
-                    <button ng-click="admin.setAddSpecality()" class="btn btn-raised btn-primary"
+                    <button ng-click="admin.setAddGroup()" class="btn btn-raised btn-primary"
                             data-toggle="modal"
-                            data-target="#speciality-dialog">Додати спеціальність
+                            data-target="#group-dialog">Додати групу
                     </button>
-                    <button ng-if="admin.specialityFilter" ng-click="admin.SetEditSpecality(admin.specialityFilter)"
+                    <button ng-if="admin.groupFilter" ng-click="admin.SetEditGroup(admin.groupFilter)"
                             class="btn btn-raised btn-info"
                             data-toggle="modal" data-target="#group-dialog">
                         Редагувати
                     </button>
-                    <button ng-if="admin.specialityFilter" class="btn btn-raised btn-danger"
-                            ng-click="admin.RemoveSpec(admin.specialityFilter)">Видалити
+                    <button ng-if="admin.groupFilter" class="btn btn-raised btn-danger"
+                            ng-click="admin.RemoveGroup(admin.groupFilter)">Видалити
                     </button>
                 </div>
             </div>
@@ -172,22 +172,22 @@
                         <div class="modal-body">
                             <form>
                                 <label for="speciality.add"
-                                       class=" lead control-label">{{admin.correctSpeciality}}</label>
-                                <input id="group.add" type="text" ng-model="admin.addSpec.name"
+                                       class=" lead control-label">{{admin.correctGroup}}</label>
+                                <input id="group.add" type="text" ng-model="admin.addGroup.name"
                                        class="form-control">
-                                <label for="group.spec" class=" lead control-label">Факультет:</label>
+                                <label for="group.spec" class=" lead control-label">Спеціальність:</label>
                                 <select id="group.spec" class="form-control"
-                                        ng-model="admin.addSpec.id_faculty">
-                                    <option ng-repeat="facult in admin.facultet" ng-value="facult.$id">
-                                        {{facult.name}}
+                                        ng-model="admin.addGroup.id_specialty">
+                                    <option ng-repeat="speciality in admin.speciality" ng-value="speciality.$id">
+                                        {{speciality.name}}
                                     </option>
                                 </select>
-                                <button ng-if="!admin.addSpec.$id" class="btn btn-raised btn-info"
-                                        ng-click="admin.addSpeciality()" data-dismiss="modal" name="addSpec">
+                                <button ng-if="!admin.addGroup.$id" class="btn btn-raised btn-info"
+                                        ng-click="admin.addGroupFunc()" data-dismiss="modal" name="addSpec">
                                     Додати
                                 </button>
-                                <button ng-if="admin.addSpec.$id" class="btn btn-raised btn-info"
-                                        ng-click="admin.UpdateSpec(admin.addSpec)"
+                                <button ng-if="admin.addGroup.$id" class="btn btn-raised btn-info"
+                                        ng-click="admin.UpdateGroup(admin.addGroup)"
                                         data-dismiss="modal">Відредагувати
                                 </button>
                             </form>

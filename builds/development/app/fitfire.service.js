@@ -56,7 +56,29 @@
         this.getGroup = function (cb) {
             return GroupArr.$loaded(cb);
         };
+        // add Group
+        this.addGroup = function(_group, _cb){
+            var GroupLength = $firebaseObject(ref.child('id_count').child('group'));
+            GroupLength.$loaded(function () {
+                var GLength = ++GroupLength.$value;
+                GroupLength.$save();
+                ref.child('group').child(GLength).set(_group, _cb);
+            });
+        };
+        // set Group
+        this.SetGroup = function (_id) {
+            return GroupArr.$getRecord(_id);
+        };
+        // updateGroup
+        this.updateGroup = function (_group) {
+            return GroupArr.$save(_group);
+        };
+        // Remove Group
+        this.RemoveGroup = function (_group) {
+            return GroupArr.$remove(_group);
+        };
         // Teacher
+
         this.getTeachers = function (cb) {
             return TeachersArr.$loaded(cb);
         };

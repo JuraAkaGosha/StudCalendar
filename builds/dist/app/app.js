@@ -89,7 +89,29 @@ function Config($stateProvider, $urlRouterProvider) {
         this.getGroup = function (cb) {
             return GroupArr.$loaded(cb);
         };
+        // add Group
+        this.addGroup = function(_group, _cb){
+            var GroupLength = $firebaseObject(ref.child('id_count').child('group'));
+            GroupLength.$loaded(function () {
+                var GLength = ++GroupLength.$value;
+                GroupLength.$save();
+                ref.child('group').child(GLength).set(_group, _cb);
+            });
+        };
+        // set Group
+        this.SetGroup = function (_id) {
+            return GroupArr.$getRecord(_id);
+        };
+        // updateGroup
+        this.updateGroup = function (_group) {
+            return GroupArr.$save(_group);
+        };
+        // Remove Group
+        this.RemoveGroup = function (_group) {
+            return GroupArr.$remove(_group);
+        };
         // Teacher
+
         this.getTeachers = function (cb) {
             return TeachersArr.$loaded(cb);
         };
@@ -255,11 +277,52 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
     fitfire.getMain(function (_d) {
         admin.main = _d;
     });
-
+// Group
     fitfire.getGroup(function (_d) {
         admin.group = _d;
         $log.debug(admin.group);
     });
+    admin.setAddGroup = function () {
+        admin.addGroup= {
+            name: "",
+            id_specialty: null
+        };
+        admin.correctGroup = 'Введіть назву групи';
+    }
+    admin.addGroupFunc = function () {
+        if (admin.addGroup.name != "") {
+            fitfire.addGroup(admin.addGroup, function () {
+                admin.setAddGroup();
+                alert("Групу додано");
+            });
+        }
+        else {
+            alert("Введіть назву дисципліни");
+        }
+    };
+    admin.SetEditGroup = function (_group) {
+        admin.correctFacult = 'Відредагуйте групу';
+        admin.addGroup = fitfire.SetGroup(_group.$id);
+    };
+    // Update Group
+    admin.UpdateGroup = function (_group) {
+        fitfire.updateGroup(_group).then(function () {
+            alert("Запис відредаговано");
+            admin.setAddGroup();
+        })
+    };
+    // Remove Group
+    admin.RemoveGroup = function (_group) {
+        admin.result = confirm("Ви впевнені, що хочете видалити запис? При видаленні запису можуть виникнути помилки В відображенні розкладу.");
+        if (admin.result) {
+            fitfire.RemoveGroup(fitfire.SetGroup(_group.$id)).then(function () {
+                alert("Запис видалено");
+                admin.setAddGroup();
+                admin.groupFilter = "";
+            })
+        }
+    }
+    // End Group
     fitfire.getTeachers(function (_d) {
         admin.teacher = _d;
     });
@@ -327,7 +390,7 @@ function AdminCtrl($scope, $rootScope, $log, FIREBASE_URL, fitfire) {
                 admin.specialityFilter = "";
             })
         }
-    }
+    };
     angular.element('#speciality-dialog').on('hidden.bs.modal', function (e) {
         $log.debug("lol");
         admin.setAddSpecality();
